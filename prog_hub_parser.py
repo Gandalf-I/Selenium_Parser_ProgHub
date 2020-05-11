@@ -21,16 +21,21 @@ class ProhHubParser(object):
   def parse(self):
     self.go_to_tests_page()
     for i in range(200):
-      time.sleep(0.1)
-      self.by_add = False
-      question = self.parse_question_page()
-      question_start_link = self.driver.find_elements_by_class_name("btn-cyan")[0].get_attribute('href')
-      self.driver.get(question_start_link)
-      if self.by_add:
-        continue
-      else:
-        self.question_arr.append(question)
-        print(i)
+      try:
+        time.sleep(0.1)
+        self.by_add = False
+        question = self.parse_question_page()
+        question_start_link = self.driver.find_elements_by_class_name("btn-cyan")[0].get_attribute('href')
+        self.driver.get(question_start_link)
+        if self.by_add:
+          continue
+        else:
+          self.question_arr.append(question)
+          print(i)
+      except Exception as err:
+        print(err)
+
+
     self.driver.close()
     table = Table()
     table.create_table(self.question_arr)
